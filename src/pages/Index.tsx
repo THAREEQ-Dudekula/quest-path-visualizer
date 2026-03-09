@@ -155,11 +155,11 @@ export default function Index() {
       setCells(prev => {
         const n = prev.map(row => [...row]);
         const { row: r, col: c, type } = step;
-        // Don't overwrite start/goal visually (they stay in displayCells)
         if ((r === start[0] && c === start[1]) || (r === goal[0] && c === goal[1])) {
-          // still mark for metrics but don't change cell
+          // don't overwrite start/goal
         } else {
-          n[r][c] = type;
+          const cellType: CellType = type === 'visit' ? 'visited' : type;
+          n[r][c] = cellType;
         }
         return n;
       });
