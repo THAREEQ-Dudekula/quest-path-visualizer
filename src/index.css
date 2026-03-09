@@ -68,7 +68,7 @@
 
 @layer components {
   .grid-cell {
-    @apply border border-border/30 transition-colors duration-75 cursor-pointer;
+    @apply border border-border/30 transition-colors duration-75 cursor-pointer aspect-square;
   }
   .grid-cell-empty {
     background: hsl(var(--cell-empty));
