@@ -246,11 +246,15 @@ export function generateMaze(rows: number, cols: number): CellType[][] {
   return grid;
 }
 
-export type AlgorithmType = 'bfs' | 'dfs' | 'dijkstra' | 'astar';
+import { greedy, bidirectional } from './algorithms';
+
+export type AlgorithmType = 'bfs' | 'dfs' | 'dijkstra' | 'astar' | 'greedy' | 'bidirectional';
 
 export const ALGORITHMS: Record<AlgorithmType, { name: string; fn: (g: GridState) => AlgoResult }> = {
   bfs: { name: 'Breadth First Search', fn: bfs },
   dfs: { name: 'Depth First Search', fn: dfs },
   dijkstra: { name: "Dijkstra's Algorithm", fn: dijkstra },
   astar: { name: 'A* Algorithm', fn: astar },
+  greedy: { name: 'Greedy Best-First', fn: greedy },
+  bidirectional: { name: 'Bidirectional Search', fn: bidirectional },
 };
