@@ -11,6 +11,7 @@ import Challenge from "./pages/Challenge";
 import Quiz from "./pages/Quiz";
 import Compare from "./pages/Compare";
 import Progress from "./pages/Progress";
+import CodingLab from "./pages/CodingLab";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/compare" element={<Compare />} />
           <Route path="/progress" element={<Progress />} />
+          <Route path="/coding-lab" element={<CodingLab />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
