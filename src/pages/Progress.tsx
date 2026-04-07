@@ -35,9 +35,7 @@ export default function Progress() {
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
         <div className="flex-1">
-          <h1 className="text-xl font-mono font-bold text-foreground">
-            <span className="text-primary">📊</span> Progress Analytics
-          </h1>
+          <h1 className="text-xl font-mono font-bold text-foreground">Progress Analytics</h1>
         </div>
         <Button variant="outline" size="sm" onClick={resetProgress}>
           <RotateCcw className="w-3 h-3 mr-1" /> Reset
@@ -45,7 +43,6 @@ export default function Progress() {
       </header>
 
       <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
-        {/* Summary Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: 'Total Quizzes', value: totalQuizzes, color: 'text-primary' },
@@ -65,7 +62,6 @@ export default function Progress() {
           ))}
         </div>
 
-        {/* Charts */}
         <div className="grid md:grid-cols-2 gap-6">
           <div className="p-4 rounded-xl bg-card border border-border">
             <h3 className="text-sm font-mono font-semibold text-muted-foreground mb-4">Quiz Performance</h3>
@@ -92,7 +88,6 @@ export default function Progress() {
           </div>
         </div>
 
-        {/* Challenge History */}
         {progress.challengeResults.length > 0 && (
           <div className="p-4 rounded-xl bg-card border border-border">
             <h3 className="text-sm font-mono font-semibold text-muted-foreground mb-3">Challenge History</h3>

@@ -119,7 +119,7 @@ export default function Lesson() {
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
         <div>
-          <h1 className="text-xl font-mono font-bold text-foreground">{algo.icon} {algo.name}</h1>
+          <h1 className="text-xl font-mono font-bold text-foreground">{algo.name}</h1>
           <p className="text-xs font-mono text-muted-foreground">{algo.category} · {algo.dataStructure}</p>
         </div>
       </header>
@@ -140,7 +140,7 @@ export default function Lesson() {
             {[
               { label: 'Time', value: algo.timeComplexity },
               { label: 'Space', value: algo.spaceComplexity },
-              { label: 'Optimal', value: algo.guaranteesShortestPath ? '✅ Yes' : '❌ No' },
+              { label: 'Optimal', value: algo.guaranteesShortestPath ? 'Yes' : 'No' },
               { label: 'Weighted', value: algo.weighted ? 'Yes' : 'No' },
             ].map(({ label, value }) => (
               <div key={label} className="p-3 rounded-lg bg-card border border-border text-center">
@@ -165,7 +165,7 @@ export default function Lesson() {
           <div className="grid sm:grid-cols-2 gap-2">
             {algo.realWorldUse.map((use, i) => (
               <div key={i} className="p-3 rounded-lg bg-card border border-border text-xs font-mono text-muted-foreground">
-                🌐 {use}
+                {use}
               </div>
             ))}
           </div>
@@ -206,19 +206,19 @@ export default function Lesson() {
         {/* 6. Summary */}
         <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="grid md:grid-cols-3 gap-6">
           <div className="p-4 rounded-lg bg-card border border-border">
-            <h3 className="text-sm font-mono font-bold text-primary mb-2">✅ Advantages</h3>
+            <h3 className="text-sm font-mono font-bold text-primary mb-2">Advantages</h3>
             <ul className="space-y-1">{algo.advantages.map((a, i) => (
               <li key={i} className="text-xs font-mono text-muted-foreground">• {a}</li>
             ))}</ul>
           </div>
           <div className="p-4 rounded-lg bg-card border border-border">
-            <h3 className="text-sm font-mono font-bold text-destructive mb-2">⚠️ Limitations</h3>
+            <h3 className="text-sm font-mono font-bold text-destructive mb-2">Limitations</h3>
             <ul className="space-y-1">{algo.limitations.map((l, i) => (
               <li key={i} className="text-xs font-mono text-muted-foreground">• {l}</li>
             ))}</ul>
           </div>
           <div className="p-4 rounded-lg bg-card border border-border">
-            <h3 className="text-sm font-mono font-bold text-accent mb-2">🎯 When to Use</h3>
+            <h3 className="text-sm font-mono font-bold text-accent mb-2">When to Use</h3>
             <ul className="space-y-1">{algo.whenToUse.map((w, i) => (
               <li key={i} className="text-xs font-mono text-muted-foreground">• {w}</li>
             ))}</ul>
@@ -230,28 +230,28 @@ export default function Lesson() {
           <h2 className="text-lg font-mono font-bold text-foreground border-b border-border pb-2 mb-4">7. Common Mistakes</h2>
           <div className="p-4 rounded-lg bg-destructive/5 border border-destructive/20 space-y-2">
             {algo.id === 'bfs' && <>
-              <p className="text-xs font-mono text-muted-foreground">❌ Using BFS on weighted graphs and expecting shortest path by weight</p>
-              <p className="text-xs font-mono text-muted-foreground">❌ Forgetting to mark nodes as visited before enqueuing (causes duplicates)</p>
+              <p className="text-xs font-mono text-muted-foreground">Using BFS on weighted graphs and expecting shortest path by weight</p>
+              <p className="text-xs font-mono text-muted-foreground">Forgetting to mark nodes as visited before enqueuing (causes duplicates)</p>
             </>}
             {algo.id === 'dfs' && <>
-              <p className="text-xs font-mono text-muted-foreground">❌ Assuming DFS finds the shortest path</p>
-              <p className="text-xs font-mono text-muted-foreground">❌ Not handling cycles properly (infinite loops)</p>
+              <p className="text-xs font-mono text-muted-foreground">Assuming DFS finds the shortest path</p>
+              <p className="text-xs font-mono text-muted-foreground">Not handling cycles properly (infinite loops)</p>
             </>}
             {algo.id === 'dijkstra' && <>
-              <p className="text-xs font-mono text-muted-foreground">❌ Using Dijkstra with negative edge weights</p>
-              <p className="text-xs font-mono text-muted-foreground">❌ Processing already-visited nodes from the priority queue</p>
+              <p className="text-xs font-mono text-muted-foreground">Using Dijkstra with negative edge weights</p>
+              <p className="text-xs font-mono text-muted-foreground">Processing already-visited nodes from the priority queue</p>
             </>}
             {algo.id === 'astar' && <>
-              <p className="text-xs font-mono text-muted-foreground">❌ Using an inadmissible heuristic (overestimates)</p>
-              <p className="text-xs font-mono text-muted-foreground">❌ Confusing g-score and f-score when updating</p>
+              <p className="text-xs font-mono text-muted-foreground">Using an inadmissible heuristic (overestimates)</p>
+              <p className="text-xs font-mono text-muted-foreground">Confusing g-score and f-score when updating</p>
             </>}
             {algo.id === 'greedy' && <>
-              <p className="text-xs font-mono text-muted-foreground">❌ Expecting optimal paths from Greedy search</p>
-              <p className="text-xs font-mono text-muted-foreground">❌ Using it in maze-heavy environments where it gets trapped</p>
+              <p className="text-xs font-mono text-muted-foreground">Expecting optimal paths from Greedy search</p>
+              <p className="text-xs font-mono text-muted-foreground">Using it in maze-heavy environments where it gets trapped</p>
             </>}
             {algo.id === 'bidirectional' && <>
-              <p className="text-xs font-mono text-muted-foreground">❌ Not correctly merging the two search paths</p>
-              <p className="text-xs font-mono text-muted-foreground">❌ Forgetting to check intersection after each expansion</p>
+              <p className="text-xs font-mono text-muted-foreground">Not correctly merging the two search paths</p>
+              <p className="text-xs font-mono text-muted-foreground">Forgetting to check intersection after each expansion</p>
             </>}
           </div>
         </motion.section>
@@ -262,7 +262,7 @@ export default function Lesson() {
             Take {algo.shortName} Quiz →
           </Button>
           <Button variant="outline" onClick={() => navigate('/coding-lab')}>
-            💻 Coding Lab
+            Coding Lab
           </Button>
         </div>
       </div>

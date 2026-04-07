@@ -9,18 +9,20 @@ import { useAppStore } from '@/store/useAppStore';
 import { CellType, generateMaze, GridState, ALGORITHMS } from '@/lib/pathfinding';
 import type { Difficulty, ChallengeResult } from '@/types';
 
-const difficultyConfig: Record<Difficulty, { rows: number; cols: number; label: string; wallDensity: number }> = {
-  easy: { rows: 9, cols: 9, label: '🌱 Easy (9×9)', wallDensity: 0.15 },
-  medium: { rows: 13, cols: 13, label: '⚔️ Medium (13×13)', wallDensity: 0.25 },
-  hard: { rows: 19, cols: 19, label: '🔥 Hard (19×19)', wallDensity: 0.35 },
-  expert: { rows: 25, cols: 25, label: '💀 Expert (25×25)', wallDensity: 0.45 },
+const difficultyConfig: Record<Difficulty, { rows: number; cols: number; label: string; wallDensity: number; complexity: string }> = {
+  easy:   { rows: 6,  cols: 6,  label: 'Easy (6×6)',     wallDensity: 0.15, complexity: 'Simple' },
+  medium: { rows: 10, cols: 10, label: 'Medium (10×10)', wallDensity: 0.25, complexity: 'Moderate' },
+  hard:   { rows: 16, cols: 16, label: 'Hard (16×16)',   wallDensity: 0.35, complexity: 'Complex' },
+  expert: { rows: 24, cols: 24, label: 'Expert (24×24)', wallDensity: 0.45, complexity: 'Extreme' },
 };
 
 function generateChallengeMaze(difficulty: Difficulty): CellType[][] {
   const { rows, cols } = difficultyConfig[difficulty];
+  // Use recursive backtracking for hard+ to create proper maze corridors
   if (difficulty === 'hard' || difficulty === 'expert') {
     return generateMaze(rows, cols);
   }
+  // For easy/medium use random walls with guaranteed path
   const grid: CellType[][] = Array.from({ length: rows }, () => Array(cols).fill('empty'));
   const density = difficultyConfig[difficulty].wallDensity;
   for (let r = 0; r < rows; r++) {
@@ -41,8 +43,6 @@ export default function Challenge() {
   const [difficulty, setDifficulty] = useState<Difficulty>('medium');
   const config = difficultyConfig[difficulty];
   const [cells, setCells] = useState<CellType[][]>(() => generateChallengeMaze('medium'));
-  const startPos: [number, number] = [1, 1];
-  const [goalPos, setGoalPos] = useState<[number, number]>([config.rows - 2, config.cols - 2]);
   const [knightPos, setKnightPos] = useState<[number, number]>([1, 1]);
   const [userPath, setUserPath] = useState<[number, number][]>([[1, 1]]);
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'paused' | 'won' | 'stopped'>('idle');
@@ -52,6 +52,7 @@ export default function Challenge() {
   const [optimalPath, setOptimalPath] = useState<[number, number][]>([]);
   const [showOptimal, setShowOptimal] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const startPos: [number, number] = [1, 1];
 
   useEffect(() => {
     if (gameState === 'playing') {
@@ -62,7 +63,6 @@ export default function Challenge() {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [gameState]);
 
-  // Keyboard controls
   useEffect(() => {
     if (gameState !== 'playing') return;
     const handleKey = (e: KeyboardEvent) => {
@@ -114,8 +114,6 @@ export default function Challenge() {
     const gridState: GridState = { cells, rows, cols, start: startPos, goal: gGoal };
     const optimalResult = ALGORITHMS.bfs.fn(gridState);
     const optimalLen = optimalResult.pathLength;
-
-    // Extract optimal path coordinates
     const optPath: [number, number][] = optimalResult.steps
       .filter(s => s.type === 'path')
       .map(s => [s.row, s.col] as [number, number]);
@@ -142,8 +140,6 @@ export default function Challenge() {
     const cfg = difficultyConfig[difficulty];
     const maze = generateChallengeMaze(difficulty);
     setCells(maze);
-    const gGoal: [number, number] = [cfg.rows - 2, cfg.cols - 2];
-    setGoalPos(gGoal);
     setKnightPos([1, 1]);
     setUserPath([[1, 1]]);
     setGameState('playing');
@@ -176,17 +172,14 @@ export default function Challenge() {
   displayCells[startPos[0]][startPos[1]] = 'start';
   if (rows > 2 && cols > 2) displayCells[gGoal[0]][gGoal[1]] = 'goal';
 
-  // Show user trail
   for (const [r, c] of userPath) {
     if (!(r === startPos[0] && c === startPos[1]) && !(r === gGoal[0] && c === gGoal[1])) {
       displayCells[r][c] = 'visited';
     }
   }
-  // Knight position
   if (!(knightPos[0] === startPos[0] && knightPos[1] === startPos[1]) && !(knightPos[0] === gGoal[0] && knightPos[1] === gGoal[1])) {
     displayCells[knightPos[0]][knightPos[1]] = 'frontier';
   }
-  // Show optimal path
   if (showOptimal) {
     for (const [r, c] of optimalPath) {
       if (!(r === startPos[0] && c === startPos[1]) && !(r === gGoal[0] && c === gGoal[1])) {
@@ -198,6 +191,15 @@ export default function Challenge() {
   const efficiency = score !== null && optimalPath.length > 0
     ? Math.round((optimalPath.length / userPath.length) * 100) : 0;
 
+  // Compute estimated optimal length for info panel
+  const estimateOptimal = () => {
+    try {
+      const gridState: GridState = { cells, rows, cols, start: startPos, goal: gGoal };
+      const r = ALGORITHMS.bfs.fn(gridState);
+      return r.pathLength;
+    } catch { return '—'; }
+  };
+
   const leaderboard = [...challengeResults].sort((a, b) => b.score - a.score).slice(0, 8);
 
   return (
@@ -207,10 +209,8 @@ export default function Challenge() {
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
         <div>
-          <h1 className="text-xl font-mono font-bold text-foreground">
-            ⚔️ Knight's Challenge
-          </h1>
-          <p className="text-xs font-mono text-muted-foreground">Guide the knight 🏰→🗼 using WASD or Arrow keys</p>
+          <h1 className="text-xl font-mono font-bold text-foreground">Knight's Challenge</h1>
+          <p className="text-xs font-mono text-muted-foreground">Navigate using WASD or Arrow keys</p>
         </div>
       </header>
 
@@ -229,9 +229,16 @@ export default function Challenge() {
                 </SelectContent>
               </Select>
 
+              {/* Difficulty info */}
+              <div className="space-y-1 text-[10px] font-mono text-muted-foreground">
+                <div>Grid: {config.rows}×{config.cols}</div>
+                <div>Obstacle density: {Math.round(config.wallDensity * 100)}%</div>
+                <div>Complexity: {config.complexity}</div>
+              </div>
+
               <div className="grid grid-cols-2 gap-2">
                 <Button onClick={startGame} className="col-span-2 bg-primary text-primary-foreground">
-                  {gameState === 'idle' ? '🏰 Start Quest' : '🔄 New Quest'}
+                  {gameState === 'idle' ? 'Start Quest' : 'New Quest'}
                 </Button>
                 {gameState === 'playing' && (
                   <>
@@ -288,8 +295,7 @@ export default function Challenge() {
               >
                 {gameState === 'won' ? (
                   <>
-                    <div className="text-3xl">👸</div>
-                    <div className="text-sm font-mono font-bold text-foreground">Princess Rescued!</div>
+                    <div className="text-sm font-mono font-bold text-foreground">Quest Complete!</div>
                     <Trophy className="w-6 h-6 text-accent mx-auto" />
                     <div className="text-2xl font-mono font-bold text-foreground">{score}</div>
                     <div className="text-xs font-mono text-muted-foreground">points</div>
@@ -299,7 +305,6 @@ export default function Challenge() {
                   </>
                 ) : (
                   <>
-                    <div className="text-3xl">🗺️</div>
                     <div className="text-sm font-mono text-muted-foreground">Shortest path revealed</div>
                     <div className="text-xs font-mono text-muted-foreground">
                       Optimal: {optimalPath.length} steps
@@ -311,11 +316,11 @@ export default function Challenge() {
 
             {leaderboard.length > 0 && (
               <div className="p-4 rounded-lg bg-card border border-border">
-                <h3 className="text-xs font-mono font-semibold text-muted-foreground uppercase mb-2">🏆 Leaderboard</h3>
+                <h3 className="text-xs font-mono font-semibold text-muted-foreground uppercase mb-2">Leaderboard</h3>
                 <div className="space-y-1">
                   {leaderboard.map((r, i) => (
                     <div key={r.id} className="flex justify-between text-xs font-mono">
-                      <span className="text-muted-foreground">{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`}</span>
+                      <span className="text-muted-foreground">#{i + 1}</span>
                       <span className="text-foreground font-bold">{r.score}</span>
                       <span className="text-muted-foreground capitalize">{r.difficulty}</span>
                     </div>

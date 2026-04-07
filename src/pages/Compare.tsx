@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
@@ -75,10 +75,8 @@ export default function Compare() {
 
     const animate = () => {
       if (!runRef.current) return;
-      let done1 = stepIdx1.current >= stepsRef1.current.length;
-      let done2 = stepIdx2.current >= stepsRef2.current.length;
 
-      if (!done1) {
+      if (stepIdx1.current < stepsRef1.current.length) {
         const s = stepsRef1.current[stepIdx1.current];
         setCells1(prev => {
           const n = prev.map(r => [...r]);
@@ -90,7 +88,7 @@ export default function Compare() {
         stepIdx1.current++;
       }
 
-      if (!done2) {
+      if (stepIdx2.current < stepsRef2.current.length) {
         const s = stepsRef2.current[stepIdx2.current];
         setCells2(prev => {
           const n = prev.map(r => [...r]);
@@ -130,9 +128,7 @@ export default function Compare() {
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
         <div>
-          <h1 className="text-xl font-mono font-bold text-foreground">
-            <span className="text-[hsl(170,60%,45%)]">⚡</span> Algorithm Compare
-          </h1>
+          <h1 className="text-xl font-mono font-bold text-foreground">Algorithm Compare</h1>
         </div>
       </header>
 
