@@ -148,10 +148,7 @@ export default function Playground() {
       if (s.type === 'visit') {
         visitCount++;
         rows.push({
-          step: visitCount,
-          row: s.row,
-          col: s.col,
-          nodeType: s.type,
+          step: visitCount, row: s.row, col: s.col, nodeType: s.type,
           parent: i > 0 ? `(${stepsRef.current[Math.max(0, i - 1)].row},${stepsRef.current[Math.max(0, i - 1)].col})` : 'start',
           status: 'visited',
         });
@@ -212,7 +209,6 @@ export default function Playground() {
 
   const onStepForward = useCallback(() => {
     if (stepsRef.current.length === 0) {
-      // Need to compute first
       const base = cells.map(row => row.map(c => (c === 'visited' || c === 'frontier' || c === 'path') ? 'empty' as CellType : c));
       baseCellsRef.current = base.map(r => [...r]);
       const gridState: GridState = { cells: base.map(r => [...r]), rows: ROWS, cols: COLS, start, goal };
@@ -260,9 +256,7 @@ export default function Playground() {
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
         <div>
-          <h1 className="text-xl font-mono font-bold text-foreground">
-            <span className="text-primary">⬡</span> Playground
-          </h1>
+          <h1 className="text-xl font-mono font-bold text-foreground">Playground</h1>
           <p className="text-xs font-mono text-muted-foreground">
             Click to place walls · Drag start/goal · Select algorithm and visualize
           </p>

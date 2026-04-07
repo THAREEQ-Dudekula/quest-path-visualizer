@@ -17,26 +17,19 @@ export default function Learning() {
           <ArrowLeft className="w-4 h-4 mr-1" /> Back
         </Button>
         <div>
-          <h1 className="text-xl font-mono font-bold text-foreground">
-            📚 Learning Mode
-          </h1>
+          <h1 className="text-xl font-mono font-bold text-foreground">Learning Mode</h1>
           <p className="text-xs font-mono text-muted-foreground">Select an algorithm to learn or practice</p>
         </div>
       </header>
 
       <div className="max-w-5xl mx-auto px-6 py-6">
-        {/* Tabs */}
         <div className="flex gap-2 mb-6">
-          <Button
-            variant={tab === 'learn' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setTab('learn')}
-          >📖 Learn</Button>
-          <Button
-            variant={tab === 'practice' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setTab('practice')}
-          >🏋️ Practice</Button>
+          <Button variant={tab === 'learn' ? 'default' : 'outline'} size="sm" onClick={() => setTab('learn')}>
+            Learn
+          </Button>
+          <Button variant={tab === 'practice' ? 'default' : 'outline'} size="sm" onClick={() => setTab('practice')}>
+            Practice
+          </Button>
         </div>
 
         {tab === 'learn' ? (
@@ -51,7 +44,6 @@ export default function Learning() {
                 transition={{ delay: 0.05 * i }}
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="text-3xl mb-3">{algo.icon}</div>
                 <h2 className="text-base font-mono font-bold text-foreground mb-1">{algo.name}</h2>
                 <p className="text-xs font-mono text-muted-foreground mb-3">{algo.description}</p>
                 <div className="flex flex-wrap gap-1">
@@ -81,54 +73,14 @@ function PracticeTab() {
   const [showResults, setShowResults] = useState(false);
 
   const practiceQuestions = [
-    {
-      id: 'p1',
-      question: 'A maze has no weights. Which algorithm guarantees the shortest path with the least overhead?',
-      options: ['DFS', 'BFS', 'Dijkstra', 'Greedy'],
-      correct: 'BFS',
-    },
-    {
-      id: 'p2',
-      question: 'You need to find the shortest path in a weighted graph. Which algorithm should you use?',
-      options: ['BFS', 'DFS', 'Dijkstra', 'Bidirectional'],
-      correct: 'Dijkstra',
-    },
-    {
-      id: 'p3',
-      question: 'Which algorithm explores as deep as possible before backtracking?',
-      options: ['BFS', 'A*', 'DFS', 'Greedy'],
-      correct: 'DFS',
-    },
-    {
-      id: 'p4',
-      question: 'Which formula does A* use to evaluate nodes?',
-      options: ['f = g', 'f = h', 'f = g + h', 'f = g × h'],
-      correct: 'f = g + h',
-    },
-    {
-      id: 'p5',
-      question: 'Which search reduces space by searching from both ends?',
-      options: ['DFS', 'A*', 'Greedy', 'Bidirectional'],
-      correct: 'Bidirectional',
-    },
-    {
-      id: 'p6',
-      question: 'Greedy Best-First Search guarantees the shortest path. True or False?',
-      options: ['True', 'False'],
-      correct: 'False',
-    },
-    {
-      id: 'p7',
-      question: 'What is the time complexity of BFS on a graph?',
-      options: ['O(V)', 'O(E)', 'O(V + E)', 'O(V²)'],
-      correct: 'O(V + E)',
-    },
-    {
-      id: 'p8',
-      question: 'Order these steps for BFS: 1) Dequeue node 2) Check if goal 3) Enqueue neighbors 4) Mark visited',
-      options: ['1→2→4→3', '1→4→2→3', '4→1→2→3', '1→2→3→4'],
-      correct: '1→2→4→3',
-    },
+    { id: 'p1', question: 'A maze has no weights. Which algorithm guarantees the shortest path with the least overhead?', options: ['DFS', 'BFS', 'Dijkstra', 'Greedy'], correct: 'BFS' },
+    { id: 'p2', question: 'You need to find the shortest path in a weighted graph. Which algorithm should you use?', options: ['BFS', 'DFS', 'Dijkstra', 'Bidirectional'], correct: 'Dijkstra' },
+    { id: 'p3', question: 'Which algorithm explores as deep as possible before backtracking?', options: ['BFS', 'A*', 'DFS', 'Greedy'], correct: 'DFS' },
+    { id: 'p4', question: 'Which formula does A* use to evaluate nodes?', options: ['f = g', 'f = h', 'f = g + h', 'f = g × h'], correct: 'f = g + h' },
+    { id: 'p5', question: 'Which search reduces space by searching from both ends?', options: ['DFS', 'A*', 'Greedy', 'Bidirectional'], correct: 'Bidirectional' },
+    { id: 'p6', question: 'Greedy Best-First Search guarantees the shortest path. True or False?', options: ['True', 'False'], correct: 'False' },
+    { id: 'p7', question: 'What is the time complexity of BFS on a graph?', options: ['O(V)', 'O(E)', 'O(V + E)', 'O(V²)'], correct: 'O(V + E)' },
+    { id: 'p8', question: 'Order these BFS steps: 1) Dequeue node 2) Check if goal 3) Enqueue neighbors 4) Mark visited', options: ['1→2→4→3', '1→4→2→3', '4→1→2→3', '1→2→3→4'], correct: '1→2→4→3' },
   ];
 
   const correctCount = practiceQuestions.filter(q => answers[q.id] === q.correct).length;
@@ -136,7 +88,7 @@ function PracticeTab() {
   return (
     <div className="space-y-6">
       <div className="p-4 rounded-lg bg-card border border-border">
-        <h3 className="text-sm font-mono font-bold text-foreground mb-1">🏋️ Practice Challenges</h3>
+        <h3 className="text-sm font-mono font-bold text-foreground mb-1">Practice Challenges</h3>
         <p className="text-xs font-mono text-muted-foreground">Test your understanding with interactive questions</p>
       </div>
 
@@ -174,15 +126,11 @@ function PracticeTab() {
       ))}
 
       <div className="flex gap-3 justify-center">
-        <Button onClick={() => setShowResults(true)} disabled={showResults}>
-          Check Answers
-        </Button>
+        <Button onClick={() => setShowResults(true)} disabled={showResults}>Check Answers</Button>
         {showResults && (
           <div className="flex items-center gap-2">
             <span className="text-sm font-mono font-bold text-primary">{correctCount}/{practiceQuestions.length}</span>
-            <Button variant="outline" size="sm" onClick={() => { setAnswers({}); setShowResults(false); }}>
-              Retry
-            </Button>
+            <Button variant="outline" size="sm" onClick={() => { setAnswers({}); setShowResults(false); }}>Retry</Button>
           </div>
         )}
       </div>
