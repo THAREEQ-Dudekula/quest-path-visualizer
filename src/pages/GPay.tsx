@@ -16,7 +16,7 @@ const sidebarItems: { key: TabKey; label: string; icon: typeof User }[] = [
 
 const feeRows = [
   { id: "late", label: "Late Fee", amount: 9000 },
-  { id: "even", label: "Even Semester", amount: 139320 },
+  { id: "even", label: "Even Semester", amount: 137930 },
 ];
 
 const GPay = () => {
