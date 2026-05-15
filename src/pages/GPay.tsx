@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { User, History, CreditCard, Building2, BookOpen, Briefcase, LogIn, Timer } from "lucide-react";
 import { toast } from "sonner";
+import gpayLogo from "@/assets/gpay-logo.png";
 
 type TabKey = "profile" | "history" | "tuition" | "hostel" | "library" | "training";
 
@@ -60,10 +61,7 @@ const GPay = () => {
       <header className="bg-[#0a6b52] text-white shadow">
         <div className="flex items-center justify-between px-6 py-3">
           <div className="flex items-center gap-3">
-            <div className="bg-white rounded-md px-3 py-1.5 leading-tight">
-              <div className="text-[#0a6b52] font-extrabold text-2xl tracking-tight">G-Pay</div>
-              <div className="text-[#0a6b52] text-[10px] -mt-1">Unified payment portal</div>
-            </div>
+            <img src={gpayLogo} alt="G-Pay logo" className="h-12 w-auto" />
           </div>
           <div className="flex items-center gap-6 text-sm">
             <div>
