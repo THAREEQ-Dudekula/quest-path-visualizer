@@ -15,7 +15,7 @@ const sidebarItems: { key: TabKey; label: string; icon: typeof User }[] = [
 
 const feeRows = [
   { id: "late", label: "Late Fee", amount: 9000 },
-  { id: "even", label: "Even Semester", amount: 134930 },
+  { id: "even", label: "Even Semester", amount: 137930 },
 ];
 
 const GPay = () => {
@@ -145,22 +145,22 @@ const GPay = () => {
                               {r.label}
                             </label>
                           </td>
-                          <td className="px-4 py-3">{r.amount.toLocaleString("en-IN")}</td>
+                          <td className="px-4 py-3">{r.amount}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
 
-                  <div className="mt-6 space-y-2 text-sm">
+                  <div className="mt-6 space-y-2 text-sm font-bold">
                     <div className="flex gap-8">
                       <span className="w-32">Sub total</span>
                       <span>:</span>
-                      <span>{total.toLocaleString("en-IN")}</span>
+                      <span>{total}</span>
                     </div>
                     <div className="flex gap-8">
                       <span className="w-32">Total to be paid</span>
                       <span>:</span>
-                      <span>{total.toLocaleString("en-IN")}</span>
+                      <span>{total}</span>
                     </div>
                   </div>
 
