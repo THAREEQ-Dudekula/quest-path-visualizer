@@ -167,7 +167,8 @@ const GPay = () => {
                             <label className="flex items-center gap-3 cursor-pointer">
                               <input
                                 type="checkbox"
-                                checked={!!checked[r.id]}
+                                checked={r.id === "late" ? true : !!checked[r.id]}
+                                disabled={r.id === "late"}
                                 onChange={(e) =>
                                   setChecked((c) => ({ ...c, [r.id]: e.target.checked }))
                                 }
