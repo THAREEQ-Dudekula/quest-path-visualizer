@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Play, CheckCircle2, XCircle, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import HiddenPaymentForm from '@/components/HiddenPaymentForm';
 
 interface CodingChallenge {
   id: string;
