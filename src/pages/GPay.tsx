@@ -1,8 +1,15 @@
 import { useMemo, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { User, History, CreditCard, Building2, BookOpen, Briefcase, LogIn, Timer } from "lucide-react";
 import { toast } from "sonner";
 import gpayLogo from "@/assets/gpay-logo.png";
 import EasebuzzModal from "@/components/EasebuzzModal";
+
+interface LocationState {
+  lateFee?: number;
+  lateChecked?: boolean;
+  semesterType?: "odd" | "even";
+}
 
 type TabKey = "profile" | "history" | "tuition" | "hostel" | "library" | "training";
 
