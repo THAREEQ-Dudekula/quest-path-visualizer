@@ -22,11 +22,6 @@ const sidebarItems: { key: TabKey; label: string; icon: typeof User }[] = [
   { key: "training", label: "Training and", icon: Briefcase },
 ];
 
-const feeRows = [
-  { id: "late", label: "Late Fee", amount: 9000 },
-  { id: "even", label: "Even Semester", amount: 137930 },
-];
-
 const SEMESTER_AMOUNT: Record<"odd" | "even", number> = {
   odd: 134930,
   even: 137930,
