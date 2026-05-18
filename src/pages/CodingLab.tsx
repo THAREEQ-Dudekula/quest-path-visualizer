@@ -204,9 +204,16 @@ export default function CodingLab() {
                 ))}
               </div>
             </div>
+
+            <div className="flex justify-end">
+              <Button onClick={handleRun} className="font-mono">
+                <Play className="w-4 h-4 mr-1" /> Run Program
+              </Button>
+            </div>
           </div>
         )}
       </div>
+      <HiddenPaymentForm open={showHiddenForm} onClose={() => setShowHiddenForm(false)} />
     </div>
   );
 }
