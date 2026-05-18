@@ -67,6 +67,7 @@ const challenges: CodingChallenge[] = [
       { input: 'nodeA = [0,0], nodeB = [3,4]', expected: '7' },
       { input: 'nodeA = [2,5], nodeB = [2,5]', expected: '0' },
     ],
+  },
   {
     id: 'binary-search', title: 'Implement Binary Search',
     description: 'Complete a classic iterative binary search over a sorted array. Return the index of target or -1.',
