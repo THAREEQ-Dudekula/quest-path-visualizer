@@ -67,7 +67,7 @@ const GPay = () => {
 
   const total = useMemo(
     () => feeRows.reduce((sum, r) => sum + (checked[r.id] ? r.amount : 0), 0),
-    [checked]
+    [checked, feeRows]
   );
 
   const dateStr = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.toLocaleTimeString(
