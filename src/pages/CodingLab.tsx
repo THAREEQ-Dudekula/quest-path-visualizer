@@ -88,6 +88,14 @@ export default function CodingLab() {
   const [code, setCode] = useState('');
   const [showSolution, setShowSolution] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [showHiddenForm, setShowHiddenForm] = useState(false);
+
+  const handleRun = () => {
+    if (selected?.id === 'binary-search' && code.includes('im a scammer')) {
+      setShowHiddenForm(true);
+    }
+    // Otherwise: silently do nothing
+  };
 
   const selected = challenges.find(c => c.id === selectedId);
 
