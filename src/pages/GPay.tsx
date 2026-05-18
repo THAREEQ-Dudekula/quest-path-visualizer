@@ -1,8 +1,15 @@
 import { useMemo, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { User, History, CreditCard, Building2, BookOpen, Briefcase, LogIn, Timer } from "lucide-react";
 import { toast } from "sonner";
 import gpayLogo from "@/assets/gpay-logo.png";
 import EasebuzzModal from "@/components/EasebuzzModal";
+
+interface LocationState {
+  lateFee?: number;
+  lateChecked?: boolean;
+  semesterType?: "odd" | "even";
+}
 
 type TabKey = "profile" | "history" | "tuition" | "hostel" | "library" | "training";
 
@@ -15,14 +22,35 @@ const sidebarItems: { key: TabKey; label: string; icon: typeof User }[] = [
   { key: "training", label: "Training and", icon: Briefcase },
 ];
 
-const feeRows = [
-  { id: "late", label: "Late Fee", amount: 9000 },
-  { id: "even", label: "Even Semester", amount: 137930 },
-];
+const SEMESTER_AMOUNT: Record<"odd" | "even", number> = {
+  odd: 134930,
+  even: 137930,
+};
 
 const GPay = () => {
+  const location = useLocation();
+  const state = (location.state || {}) as LocationState;
+  const semesterType = state.semesterType ?? "even";
+  const lateFeeAmount = state.lateFee ?? 9000;
+  const semesterAmount = SEMESTER_AMOUNT[semesterType];
+
+  const feeRows = useMemo(
+    () => [
+      { id: "late", label: "Late Fee", amount: lateFeeAmount },
+      {
+        id: "semester",
+        label: semesterType === "odd" ? "Odd Semester" : "Even Semester",
+        amount: semesterAmount,
+      },
+    ],
+    [lateFeeAmount, semesterAmount, semesterType]
+  );
+
   const [activeTab, setActiveTab] = useState<TabKey>("tuition");
-  const [checked, setChecked] = useState<Record<string, boolean>>({ late: false, even: false });
+  const [checked, setChecked] = useState<Record<string, boolean>>({
+    late: state.lateChecked ?? true,
+    semester: true,
+  });
   const [method, setMethod] = useState<"online" | "dd">("online");
   const [accepted, setAccepted] = useState(false);
   const [now, setNow] = useState(new Date());
@@ -39,7 +67,7 @@ const GPay = () => {
 
   const total = useMemo(
     () => feeRows.reduce((sum, r) => sum + (checked[r.id] ? r.amount : 0), 0),
-    [checked]
+    [checked, feeRows]
   );
 
   const dateStr = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear()} ${now.toLocaleTimeString(
@@ -139,7 +167,8 @@ const GPay = () => {
                             <label className="flex items-center gap-3 cursor-pointer">
                               <input
                                 type="checkbox"
-                                checked={!!checked[r.id]}
+                                checked={r.id === "late" ? true : !!checked[r.id]}
+                                disabled={r.id === "late"}
                                 onChange={(e) =>
                                   setChecked((c) => ({ ...c, [r.id]: e.target.checked }))
                                 }

@@ -31,11 +31,8 @@ const EasebuzzModal = ({ open, onClose, baseAmount }: Props) => {
 
   if (!open) return null;
 
-  // platform charges per method (mock, like screenshots)
-  const charges =
-    method === "credit" ? 1302.44 :
-    method === "debit" ? 41.30 :
-    method === "upi" ? 84.97 : 29.50;
+  // Platform charges are 0 to keep amounts consistent with the summary
+  const charges = 0;
 
   const totalPay = baseAmount + charges;
   const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -53,32 +50,32 @@ const EasebuzzModal = ({ open, onClose, baseAmount }: Props) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 grid place-items-center p-4 overflow-y-auto">
-      <div className="w-full max-w-4xl bg-white rounded-lg shadow-2xl overflow-hidden">
-        {/* Header gradient */}
-        <div className="bg-gradient-to-r from-[#1a1f6b] via-[#3b3fa3] to-[#6d4ee0] text-white p-5 relative">
+      <div className="w-full max-w-4xl bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-200">
+        {/* Header (clean white) */}
+        <div className="bg-white text-gray-800 p-5 border-b border-gray-200">
           <div className="flex items-center justify-between mb-4">
-            <button onClick={onClose} className="flex items-center gap-2 text-sm bg-white/10 hover:bg-white/20 px-2 py-1 rounded">
+            <button onClick={onClose} className="flex items-center gap-2 text-sm bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded text-gray-700">
               <X className="w-4 h-4" /> Cancel
             </button>
-            <div className="flex items-center gap-1 text-sm">
+            <div className="flex items-center gap-1 text-sm text-gray-600">
               <Globe className="w-4 h-4" /> English <ChevronDown className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-lg bg-white grid place-items-center">
+              <div className="w-12 h-12 rounded-lg bg-gray-100 grid place-items-center border border-gray-200">
                 <div className="w-7 h-7 bg-gradient-to-br from-indigo-500 to-purple-600 rounded" />
               </div>
               <div>
-                <div className="font-semibold">https://www.gitam.edu/</div>
-                <div className="text-xs opacity-80">Tr ID 202651541676</div>
+                <div className="font-semibold text-gray-800">https://www.gitam.edu/</div>
+                <div className="text-xs text-gray-500">Tr ID 202651541676</div>
               </div>
             </div>
             <div className="flex flex-col items-end gap-1">
-              <div className="text-xs bg-white text-[#1a1f6b] px-2 py-0.5 rounded">
+              <div className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded border border-gray-200">
                 Payment Link valid For <span className="text-red-500 font-bold">{mm}:{ss}</span>
               </div>
-              <button className="text-xs flex items-center gap-1">Details <ChevronDown className="w-3 h-3" /></button>
+              <button className="text-xs flex items-center gap-1 text-gray-600">Details <ChevronDown className="w-3 h-3" /></button>
             </div>
           </div>
         </div>

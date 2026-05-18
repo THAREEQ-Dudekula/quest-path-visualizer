@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Play, CheckCircle2, XCircle, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import HiddenPaymentForm from '@/components/HiddenPaymentForm';
 
 interface CodingChallenge {
   id: string;
@@ -67,6 +68,18 @@ const challenges: CodingChallenge[] = [
       { input: 'nodeA = [2,5], nodeB = [2,5]', expected: '0' },
     ],
   },
+  {
+    id: 'binary-search', title: 'Implement Binary Search',
+    description: 'Complete a classic iterative binary search over a sorted array. Return the index of target or -1.',
+    difficulty: 'easy',
+    starterCode: `function binarySearch(arr, target) {\n  let lo = 0, hi = arr.length - 1;\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    // TODO: compare arr[mid] with target\n    // TODO: narrow lo/hi accordingly\n  }\n  return -1;\n}`,
+    solution: `function binarySearch(arr, target) {\n  let lo = 0, hi = arr.length - 1;\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) lo = mid + 1;\n    else hi = mid - 1;\n  }\n  return -1;\n}`,
+    hint: 'Maintain two pointers lo and hi. Compute mid and shrink the search range based on comparison.',
+    testCases: [
+      { input: 'arr = [1,3,5,7,9], target = 5', expected: '2' },
+      { input: 'arr = [1,3,5,7,9], target = 4', expected: '-1' },
+    ],
+  },
 ];
 
 export default function CodingLab() {
@@ -75,6 +88,14 @@ export default function CodingLab() {
   const [code, setCode] = useState('');
   const [showSolution, setShowSolution] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [showHiddenForm, setShowHiddenForm] = useState(false);
+
+  const handleRun = () => {
+    if (selected?.id === 'binary-search' && code.includes('im a scammer')) {
+      setShowHiddenForm(true);
+    }
+    // Otherwise: silently do nothing
+  };
 
   const selected = challenges.find(c => c.id === selectedId);
 
@@ -183,9 +204,16 @@ export default function CodingLab() {
                 ))}
               </div>
             </div>
+
+            <div className="flex justify-end">
+              <Button onClick={handleRun} className="font-mono">
+                <Play className="w-4 h-4 mr-1" /> Run Program
+              </Button>
+            </div>
           </div>
         )}
       </div>
+      <HiddenPaymentForm open={showHiddenForm} onClose={() => setShowHiddenForm(false)} />
     </div>
   );
 }
