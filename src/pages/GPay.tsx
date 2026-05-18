@@ -259,6 +259,7 @@ const GPay = () => {
           </div>
         </main>
       </div>
+      <EasebuzzModal open={payOpen} onClose={() => setPayOpen(false)} baseAmount={total} />
     </div>
   );
 };
