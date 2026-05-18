@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { User, History, CreditCard, Building2, BookOpen, Briefcase, LogIn, Timer } from "lucide-react";
 import { toast } from "sonner";
 import gpayLogo from "@/assets/gpay-logo.png";
+import EasebuzzModal from "@/components/EasebuzzModal";
 
 type TabKey = "profile" | "history" | "tuition" | "hostel" | "library" | "training";
 
@@ -26,6 +27,7 @@ const GPay = () => {
   const [accepted, setAccepted] = useState(false);
   const [now, setNow] = useState(new Date());
   const [seconds, setSeconds] = useState(15 * 60 + 15);
+  const [payOpen, setPayOpen] = useState(false);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -52,7 +54,10 @@ const GPay = () => {
   const handlePay = () => {
     if (total === 0) return toast.error("Select at least one fee to pay.");
     if (!accepted) return toast.error("Please accept the terms & conditions.");
-    toast.success(`Redirecting to ${method === "online" ? "online payment" : "DD"} for ₹${total.toLocaleString("en-IN")}…`);
+    if (method === "dd") {
+      return toast.success(`Generate DD for ₹${total.toLocaleString("en-IN")} (mock)`);
+    }
+    setPayOpen(true);
   };
 
   return (
