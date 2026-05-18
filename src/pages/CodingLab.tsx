@@ -67,6 +67,17 @@ const challenges: CodingChallenge[] = [
       { input: 'nodeA = [0,0], nodeB = [3,4]', expected: '7' },
       { input: 'nodeA = [2,5], nodeB = [2,5]', expected: '0' },
     ],
+  {
+    id: 'binary-search', title: 'Implement Binary Search',
+    description: 'Complete a classic iterative binary search over a sorted array. Return the index of target or -1.',
+    difficulty: 'easy',
+    starterCode: `function binarySearch(arr, target) {\n  let lo = 0, hi = arr.length - 1;\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    // TODO: compare arr[mid] with target\n    // TODO: narrow lo/hi accordingly\n  }\n  return -1;\n}`,
+    solution: `function binarySearch(arr, target) {\n  let lo = 0, hi = arr.length - 1;\n  while (lo <= hi) {\n    const mid = Math.floor((lo + hi) / 2);\n    if (arr[mid] === target) return mid;\n    if (arr[mid] < target) lo = mid + 1;\n    else hi = mid - 1;\n  }\n  return -1;\n}`,
+    hint: 'Maintain two pointers lo and hi. Compute mid and shrink the search range based on comparison.',
+    testCases: [
+      { input: 'arr = [1,3,5,7,9], target = 5', expected: '2' },
+      { input: 'arr = [1,3,5,7,9], target = 4', expected: '-1' },
+    ],
   },
 ];
 
