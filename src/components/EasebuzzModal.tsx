@@ -31,11 +31,8 @@ const EasebuzzModal = ({ open, onClose, baseAmount }: Props) => {
 
   if (!open) return null;
 
-  // platform charges per method (mock, like screenshots)
-  const charges =
-    method === "credit" ? 1302.44 :
-    method === "debit" ? 41.30 :
-    method === "upi" ? 84.97 : 29.50;
+  // Platform charges are 0 to keep amounts consistent with the summary
+  const charges = 0;
 
   const totalPay = baseAmount + charges;
   const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
